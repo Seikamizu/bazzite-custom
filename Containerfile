@@ -307,6 +307,15 @@ RUN --mount=type=cache,dst=/var/cache \
     cp -r /tmp/scopebuddy/ScopeBuddy-*/bin/* /usr/bin/ && \
     /ctx/cleanup
 
+# START Customization for NCT6687D fan controller (ASUS/Nuvoton)
+RUN --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    echo "Installing NCT6687D fan controller module..." && \
+    dnf5 -y install 'https://copr.fedorainfracloud.org/coprs/fred78290/nct6687d/repo/fedora-$(rpm -E %fedora)/fred78290-nct6687d-fedora-$(rpm -E %fedora).noarch.rpm' && \
+    dnf5 -y install kmod-nct6687d && \
+    /ctx/cleanup
+# END Customization
+
 # Install Steam & Lutris, plus supporting packages
 # Downgrade ibus to fix an issue with the Steam keyboard
 RUN --mount=type=cache,dst=/var/cache \
