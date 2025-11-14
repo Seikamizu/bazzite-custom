@@ -311,7 +311,9 @@ RUN --mount=type=cache,dst=/var/cache \
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     echo "Installing NCT6687D fan controller module..." && \
-    dnf5 -y install 'https://copr.fedorainfracloud.org/coprs/fred78290/nct6687d/repo/fedora-$(rpm -E %fedora)/fred78290-nct6687d-fedora-$(rpm -E %fedora).noarch.rpm' && \
+    # 1. COPR-Repo für nct6687d aktivieren
+    dnf5 -y copr enable fred78290/nct6687d && \
+    # 2. Kernel-Modul installieren
     dnf5 -y install kmod-nct6687d && \
     /ctx/cleanup
 # END Customization
